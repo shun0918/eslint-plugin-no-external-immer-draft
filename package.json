@@ -1,0 +1,39 @@
+{
+  "name": "eslint-plugin-no-external-immer-draft",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "author": "shun0918",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest",
+    "lint": "eslint src"
+  },
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "immer",
+    "immutable",
+    "plugin"
+  ],
+  "license": "MIT",
+  "packageManager": "pnpm@10.11.0",
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "@typescript-eslint/parser": "^8.33.1",
+    "@typescript-eslint/rule-tester": "^8.33.1",
+    "@typescript-eslint/utils": "^8.33.1",
+    "eslint": "^9.28.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.1"
+  }
+}
