@@ -21,12 +21,27 @@ export default createRule({
       draftParam?: string;
     }[] = [];
 
+    // Track imports from 'immer' package
+    const immerImports = new Set<string>();
+
     return {
+      ImportDeclaration(node: TSESTree.ImportDeclaration) {
+        // Track imports from 'immer' package
+        if (node.source.value === "immer") {
+          for (const specifier of node.specifiers) {
+            if (specifier.type === "ImportSpecifier" && specifier.imported.type === "Identifier") {
+              immerImports.add(specifier.imported.name);
+            }
+          }
+        }
+      },
+
       CallExpression(node: TSESTree.CallExpression) {
-        // Detect produce function calls
+        // Only check produce function calls that were imported from immer
         if (
           node.callee.type === "Identifier" &&
           node.callee.name === "produce" &&
+          immerImports.has("produce") &&
           node.arguments.length >= 2
         ) {
           const callback = node.arguments[1];

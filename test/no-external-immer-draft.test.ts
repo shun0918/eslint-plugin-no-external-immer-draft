@@ -21,6 +21,37 @@ ruleTester.run("no-external-immer-draft", rule, {
         x.count = 1; // Operations outside produce are allowed
       `,
     },
+    {
+      code: `
+        // Non-immer produce function should not trigger the rule
+        import { produce } from "other-library";
+        const external = { x: 1 };
+        const result = produce({}, draft => {
+          external.x = 2; // Should be allowed - not immer's produce
+        });
+      `,
+    },
+    {
+      code: `
+        // Local produce function should not trigger the rule
+        function produce(state, updater) {
+          return updater(state);
+        }
+        const external = { x: 1 };
+        const result = produce({}, draft => {
+          external.x = 2; // Should be allowed - not immer's produce
+        });
+      `,
+    },
+    {
+      code: `
+        // No immer import - should not trigger the rule
+        const external = { x: 1 };
+        const result = produce({}, draft => {
+          external.x = 2; // Should be allowed - no immer import
+        });
+      `,
+    },
   ],
   invalid: [
     {
